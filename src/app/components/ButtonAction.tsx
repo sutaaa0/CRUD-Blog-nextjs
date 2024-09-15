@@ -13,7 +13,7 @@ interface ButtonActionProps {
 
 const ButtonAction: FC<ButtonActionProps> = ({ id }) => {
   const router = useRouter();
-  const { mutate: deletePost, isLoading } = useMutation({
+  const { mutate: deletePost, status } = useMutation({
     mutationFn: () => {
       return axios.delete(`/api/posts/${id}`);
     },
@@ -33,18 +33,16 @@ const ButtonAction: FC<ButtonActionProps> = ({ id }) => {
         Edit
       </Link>
       <button onClick={() => deletePost()} className="btn btn-error">
-        {isLoading && <span className="loading loading-spinner"></span>}
-        {isLoading ? (
-          "Loading..."
+        {status === 'pending' ? (
+          <span className="loading loading-spinner"></span>
         ) : (
-          <>
-            <Trash />
-            Delete
-          </>
+          <Trash />
         )}
+        {status === 'pending' ? "Loading..." : "Delete"}
       </button>
     </div>
   );
+  
 };
 
 export default ButtonAction;

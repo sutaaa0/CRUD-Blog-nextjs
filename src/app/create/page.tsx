@@ -7,13 +7,15 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
+
 const CreatePage = () => {
   const router = useRouter();
   const handleCreatePost: SubmitHandler<FormInputPost> = (data) => {
     createPost(data);
   };
 
-  const { mutate: createPost, isLoading: isLoadingSubmit } = useMutation({
+
+  const { mutate: createPost, status: isLoadingSubmit } = useMutation({
     mutationFn: (newPost: FormInputPost) => {
       return axios.post('/api/posts/create', newPost);
     },
@@ -30,7 +32,7 @@ const CreatePage = () => {
     <div>
       <BackButton />
       <h1 className="text-2xl my-4 font-bold text-center">Add new post</h1>
-      <FormPost submit={handleCreatePost} isLoadingSubmit={isLoadingSubmit} isEditing={false} />
+      <FormPost isLoadingSubmit={false} submit={handleCreatePost} isEditing={false} />
     </div>
   );
 };
